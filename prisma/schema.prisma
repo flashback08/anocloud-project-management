@@ -40,7 +40,7 @@ model User {
   tasks      Task[]
   projects   Project[]
   comments   Comment[]
-
+  activityLogs ActivityLog[]
   @@map("users")
 }
 
@@ -86,4 +86,17 @@ model Comment {
   createdAt DateTime @default(now()) @map("created_at")
 
   @@map("comments")
+}
+
+
+model ActivityLog {
+  id         String   @id @default(uuid())
+  userId     String   @map("user_id")
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  action     String
+  entityType String   @map("entity_type")
+  entityId   String   @map("entity_id")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@map("activity_logs")
 }
